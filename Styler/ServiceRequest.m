@@ -30,6 +30,7 @@
     SPGooglePlacesAutocompleteQuery *searchQuery;
     NSArray *searchResultPlaces;
     MKPointAnnotation *userAnnotation;
+    UIView *tapView;
 }
     NSString *const juniorExplain= @"You should choose Junior Service because it is cheap";
     NSString *const seniorExplain= @"Senior is quite more expensive. But it is OK";
@@ -122,11 +123,26 @@
 }
 
 - (void) initMenuBt{
+    self.revealViewController.delegate = self;
+    tapView = [[UIView alloc]initWithFrame:self.view.frame];
+    tapView.backgroundColor = [UIColor clearColor];
+    
     SWRevealViewController *revealVC = self.revealViewController;
     if (revealVC){
         [_menuBt setTarget:self.revealViewController];
         [_menuBt setAction:@selector(revealToggle:)];
-        [self.view addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
+        [tapView addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
+    }
+}
+
+- (void)revealController:(SWRevealViewController *)revealController willMoveToPosition:(FrontViewPosition)position{
+    if (position == FrontViewPositionRight){
+        [self.view addSubview:tapView];
+        
+    }else if (position == FrontViewPositionLeft){
+        
+        [tapView removeFromSuperview];
+        
     }
 }
 
@@ -140,6 +156,7 @@
         [self recenterMap];
     }
 }
+
 
 - (void) recenterMap{
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userCoordinate, 2000, 2000);

@@ -40,14 +40,19 @@
 - (IBAction)onGoogleLogin:(id)sender {
     [[GIDSignIn sharedInstance]signOut];
     [[GIDSignIn sharedInstance]signIn];
-    [[NSUserDefaults standardUserDefaults]setObject:@"Google" forKey:@"loginType"];
+    [[NSUserDefaults standardUserDefaults]setObject:@"google" forKey:@"loginType"];
 }
 
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error{
     NSString*email = user.profile.email;
     [ShowActivityIndicatorView startActivityIndicatorView:activityIndicatorView inView:self.view];
-    [CheckLoginFacebook checkLoginwithEmail:email andType:@"Google" onCompletion:^(NSError*error, NSDictionary*json){
+    [CheckLoginFacebook checkLoginwithEmail:email andType:@"google" onCompletion:^(NSError*error, NSDictionary*json){
         if (!error){
+            NSString *givenName = user.profile.givenName;
+            NSString *famillyName = user.profile.familyName;
+            NSDictionary *userData = @{@"firstname":givenName,@"lastname":famillyName};
+            [[NSUserDefaults standardUserDefaults]setObject:userData forKey:@"userData"];
+            
             OnLoginFacebook *onLogin = [OnLoginFacebook new];
             [onLogin onLoginwithEmail:email andJson:json inViewController:self];
         }
@@ -60,7 +65,7 @@
 - (IBAction)onFacebookLogin:(id)sender {
     LoginFacebook *loginFacebook = [LoginFacebook new];
     [loginFacebook loginFacebookfromViewController:self];
-    [[NSUserDefaults standardUserDefaults]setObject:@"Facebook" forKey:@"loginType"];
+    [[NSUserDefaults standardUserDefaults]setObject:@"facebook" forKey:@"loginType"];
 }
 
 - (IBAction)onSignInBt:(id)sender {
@@ -70,15 +75,19 @@
     NSString *url = @"http://styler.theammobile.com/LOGIN_CUSTOMER.php?";
     NSDictionary *paras =@{@"email":_emailTF.text,@"pass":_passwordTF.text};
     NSString *urlString = [CreateLink linkwithUrl:url andparas:paras];
+    
     [IOSRequest requestPath:urlString onCompletion:^(NSError*error, NSDictionary*json){
         if (!error){
-          [OnEmailLogin loginWithEmail:_emailTF.text andJson:json inViewController:self];  
+            
+          [OnEmailLogin loginWithEmail:_emailTF.text andJson:json inViewController:self];
+            
         }
         
         [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
         
     }];
 }
+
 - (BOOL) checkValidPassWord{
     return YES;
 }

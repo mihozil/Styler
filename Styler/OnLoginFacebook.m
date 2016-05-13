@@ -21,9 +21,12 @@
     if (success == 1) [self loginSuccess:json[@"id"]];
     if (success == 2 )[self duplicateEmail];
 }
+
 - (void) signUpVC3:(NSString*)idcustomer{
     [[NSUserDefaults standardUserDefaults]setObject:_email forKey:@"email"];
     [[NSUserDefaults standardUserDefaults]setObject:idcustomer forKey:@"idcustomer"];
+    // save user data
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         SignUpVC3 *signUpVC3 = [_viewController.storyboard instantiateViewControllerWithIdentifier:@"signupvc3"];
         [_viewController.navigationController pushViewController:signUpVC3 animated:YES];

@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "SWRevealViewController.h"
 
-@interface ServiceRequest : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate,UISearchBarDelegate,UISearchControllerDelegate, UITableViewDelegate,UITableViewDataSource>
+@interface ServiceRequest : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate,UISearchBarDelegate,UISearchControllerDelegate, UITableViewDelegate,UITableViewDataSource,SWRevealViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBt;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *serviceTypeSegment;
 @property (weak, nonatomic) IBOutlet UILabel *explainTF;

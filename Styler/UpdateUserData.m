@@ -21,7 +21,11 @@
     
     [IOSRequest requestPath:urlString onCompletion:^(NSError*error, NSDictionary*json){
         
-        [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"userData"];
+        NSMutableDictionary  *userData = [NSMutableDictionary dictionaryWithDictionary:json];
+        userData[@"firstname"] = [json[@"firstname"] stringByRemovingPercentEncoding];
+        userData[@"lastname"] = [json[@"lastname"] stringByRemovingPercentEncoding];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:userData forKey:@"userData"];
         if (complete) complete(error);
         
     }];

@@ -29,6 +29,7 @@
     NSTimer*timer;
     int timeCount;
     NSString*stylerStatus;
+    UIView*tapView;
 }
 - (void) initPrj{
     self.navigationController.navigationBarHidden = NO;
@@ -47,12 +48,23 @@
     ref = [[Firebase alloc]initWithUrl:@"https://stylerapplication.firebaseio.com"];
     
     SWRevealViewController *swReveal = self.revealViewController;
+    tapView = [[UIView alloc]initWithFrame:self.view.frame];
+    tapView.backgroundColor = [UIColor clearColor];
+    self.revealViewController.delegate = self;
     if (swReveal){
         [_menuBarBt setTarget:self.revealViewController];
         [_menuBarBt setAction:@selector(revealToggle:)];
-        [self.view addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
+        [tapView addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
     }
 }
+- (void)revealController:(SWRevealViewController *)revealController willMoveToPosition:(FrontViewPosition)position{
+    if (position==FrontViewPositionRight){
+        [self.view addSubview:tapView];
+    } else if (position == FrontViewPositionLeft){
+        [tapView removeFromSuperview];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     [locationManager startUpdatingLocation];

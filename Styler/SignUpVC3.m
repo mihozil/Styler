@@ -56,7 +56,9 @@
     NSString*email = [[NSUserDefaults standardUserDefaults]objectForKey:@"email"];
     NSString *loginType = [[NSUserDefaults standardUserDefaults]objectForKey:@"loginType"];
     
-    NSMutableDictionary *paras =[NSMutableDictionary dictionaryWithDictionary: @{@"email":email,@"firstname":userData[@"firstname"],@"lastname":userData[@"lastname"],@"phonenumber":_phoneTF.text}];
+    NSString *firstName = [userData[@"firstname"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSString *lastName = [userData[@"lastname"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSMutableDictionary *paras =[NSMutableDictionary dictionaryWithDictionary: @{@"email":email,@"firstname":firstName,@"lastname":lastName,@"phonenumber":_phoneTF.text}];
     
     NSString *url;
     if (userData[@"password"]!=nil) {

@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "SWRevealViewController.h"
 
-@interface ImplementationVC : UIViewController<CLLocationManagerDelegate,MKMapViewDelegate>
+@interface ImplementationVC : UIViewController<CLLocationManagerDelegate,MKMapViewDelegate,SWRevealViewControllerDelegate>
+
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UILabel *freeCancelLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *cancelImg;

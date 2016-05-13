@@ -43,7 +43,7 @@
             [self saveUserData:result];
             
             NSString*email = result[@"email"];
-            [CheckLoginFacebook checkLoginwithEmail:email andType:@"Facebook" onCompletion:^(NSError*error, NSDictionary*json){
+            [CheckLoginFacebook checkLoginwithEmail:email andType:@"facebook" onCompletion:^(NSError*error, NSDictionary*json){
                 if (!error){
                     OnLoginFacebook *onLogin = [OnLoginFacebook new];
                     [onLogin onLoginwithEmail:email andJson:json inViewController:_viewController];
