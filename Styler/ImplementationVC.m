@@ -45,7 +45,7 @@
     _mapView.showsUserLocation = YES;
     _mapView.delegate = self;
     userCoordinate = CLLocationCoordinate2DMake(0, 0);
-    ref = [[Firebase alloc]initWithUrl:@"https://stylerapplication.firebaseio.com"];
+    ref = [[Firebase alloc]initWithUrl:@"https://stylerapplication.firebaseio.com/rooms"];
     
     SWRevealViewController *swReveal = self.revealViewController;
     tapView = [[UIView alloc]initWithFrame:self.view.frame];

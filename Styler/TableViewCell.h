@@ -11,5 +11,6 @@
 @interface TableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *userProfilePic;
+@property (weak, nonatomic) IBOutlet UIImageView *imgLayerView;
 
 @end

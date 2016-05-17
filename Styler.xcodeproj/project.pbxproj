@@ -119,6 +119,9 @@
 		18E0BEC21CCE85FD007BBFB8 /* map.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18E0BEB91CCE85FD007BBFB8 /* map.jpg */; };
 		18E0BEC31CCE85FD007BBFB8 /* trang1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18E0BEBA1CCE85FD007BBFB8 /* trang1.jpg */; };
 		18E384BA1CD1CBDB00A11DDD /* MenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E384B91CD1CBDB00A11DDD /* MenuVC.m */; };
+		18FF048E1CE97373006B74F5 /* UpdateNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FF048D1CE97373006B74F5 /* UpdateNotification.m */; };
+		18FF04941CE9AAD0006B74F5 /* MKNumberBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FF04931CE9AAD0006B74F5 /* MKNumberBadgeView.m */; };
+		18FF04971CE9B1B9006B74F5 /* NotificationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FF04961CE9B1B9006B74F5 /* NotificationVC.m */; };
 		785BBE7C340ED603E16A2DAA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96499342BA2FA500CC544ABC /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -296,6 +299,12 @@
 		18E0BEBA1CCE85FD007BBFB8 /* trang1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = trang1.jpg; path = ../../../../Downloads/Styler/Styler_Pic/trang1.jpg; sourceTree = "<group>"; };
 		18E384B81CD1CBDB00A11DDD /* MenuVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuVC.h; sourceTree = "<group>"; };
 		18E384B91CD1CBDB00A11DDD /* MenuVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuVC.m; sourceTree = "<group>"; };
+		18FF048C1CE97373006B74F5 /* UpdateNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateNotification.h; sourceTree = "<group>"; };
+		18FF048D1CE97373006B74F5 /* UpdateNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateNotification.m; sourceTree = "<group>"; };
+		18FF04921CE9AAD0006B74F5 /* MKNumberBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKNumberBadgeView.h; path = "../../../../Downloads/MKNumberBadgeView-master/MKNumberBadgeView.h"; sourceTree = "<group>"; };
+		18FF04931CE9AAD0006B74F5 /* MKNumberBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MKNumberBadgeView.m; path = "../../../../Downloads/MKNumberBadgeView-master/MKNumberBadgeView.m"; sourceTree = "<group>"; };
+		18FF04951CE9B1B9006B74F5 /* NotificationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationVC.h; sourceTree = "<group>"; };
+		18FF04961CE9B1B9006B74F5 /* NotificationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationVC.m; sourceTree = "<group>"; };
 		96499342BA2FA500CC544ABC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F85793524B11241E02C0BD1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -472,6 +481,8 @@
 			children = (
 				187F60BB1CDB41AC007230AC /* StylerVC.h */,
 				187F60BC1CDB41AC007230AC /* StylerVC.m */,
+				18FF04951CE9B1B9006B74F5 /* NotificationVC.h */,
+				18FF04961CE9B1B9006B74F5 /* NotificationVC.m */,
 			);
 			name = OtherVCs;
 			sourceTree = "<group>";
@@ -537,10 +548,14 @@
 		18A4C8981CE47BF60032A1B8 /* New */ = {
 			isa = PBXGroup;
 			children = (
+				18FF04921CE9AAD0006B74F5 /* MKNumberBadgeView.h */,
+				18FF04931CE9AAD0006B74F5 /* MKNumberBadgeView.m */,
 				18A4C8991CE47C0D0032A1B8 /* EncodeString.h */,
 				18A4C89A1CE47C0D0032A1B8 /* EncodeString.m */,
 				18A4C89C1CE48C8F0032A1B8 /* GetIdProduct.h */,
 				18A4C89D1CE48C8F0032A1B8 /* GetIdProduct.m */,
+				18FF048C1CE97373006B74F5 /* UpdateNotification.h */,
+				18FF048D1CE97373006B74F5 /* UpdateNotification.m */,
 			);
 			name = New;
 			sourceTree = "<group>";
@@ -907,6 +922,7 @@
 				185509C21CCF67BA009641D0 /* UpdateUserData.m in Sources */,
 				188AC5861CD04A5C00171D28 /* NSString+EmailValidation.m in Sources */,
 				186221CE1CCDFCBE00B1845C /* SignUpVC2.m in Sources */,
+				18FF04941CE9AAD0006B74F5 /* MKNumberBadgeView.m in Sources */,
 				187F60E81CDB4F0E007230AC /* ImplementationVC.m in Sources */,
 				188AC6131CD0C19C00171D28 /* SetViewMoveUp.m in Sources */,
 				18D7E1AA1CD273680000F236 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
@@ -926,6 +942,8 @@
 				187C0C231CE0262F00EF780E /* TableViewCell.m in Sources */,
 				18A4C89B1CE47C0D0032A1B8 /* EncodeString.m in Sources */,
 				186221D11CCDFCD000B1845C /* SignUpVC3.m in Sources */,
+				18FF04971CE9B1B9006B74F5 /* NotificationVC.m in Sources */,
+				18FF048E1CE97373006B74F5 /* UpdateNotification.m in Sources */,
 				18CEC48C1CD3089C00C943DD /* ServicesVC.m in Sources */,
 				18D7E1A91CD273680000F236 /* SPGooglePlacesAutocompleteQuery.m in Sources */,
 				188AC5891CD04E6E00171D28 /* LoginFacebook.m in Sources */,

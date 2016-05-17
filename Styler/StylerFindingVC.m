@@ -51,7 +51,7 @@
     tapStyler.numberOfTapsRequired = 1;
     stylerData = [[NSMutableDictionary alloc]init];
     
-    ref = [[Firebase alloc]initWithUrl:@"https://stylerapplication.firebaseio.com"];
+    ref = [[Firebase alloc]initWithUrl:@"https://stylerapplication.firebaseio.com/rooms"];
 }
 - (void) onTap{
     StylerVC *stylerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"stylervc"];
@@ -64,35 +64,43 @@
     CLLocationDistance distance = [userLocation distanceFromLocation:stylerLocation];
     return distance;
 }
+
 - (void) findAvailableStyler{
     [ref observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot*snapShot){
-        NSDictionary *rooms = snapShot.value;
-        NSArray *allKeys = rooms.allKeys;
-        NSArray *allValues = rooms.allValues;
-        for (int i=0; i<allKeys.count; i++){
-            NSDictionary *room = allValues[i];
-            if ([room[@"status"][@"status1"] isEqualToString:@"open"])
-                
-                if ([self withinDistance:room]<5000){
-                    // we can save more
-                    [stylers addObject:allKeys[i]];
+        if (snapShot.value == [NSNull null]){
+            [self noAvailableStyler];
+        }else {
+            NSDictionary *rooms = snapShot.value;
+            NSArray *allKeys = rooms.allKeys;
+            NSArray *allValues = rooms.allValues;
+            for (int i=0; i<allKeys.count; i++){
+                NSDictionary *room = allValues[i];
+                if ([room[@"status"][@"status1"] isEqualToString:@"open"])
                     
-                }
+                    if ([self withinDistance:room]<5000){
+                        // we can save more
+                        [stylers addObject:allKeys[i]];
+                        
+                    }
+            }
+            [self methodologyFindStyler];
+            [self updateStylerAccept];
         }
-        [self methodologyFindStyler];
-        [self updateStylerAccept];
-        
     }];
 }
+
+- (void) noAvailableStyler{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No available Styler" message:@"We can not find available styler" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    [alertController addAction:action];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 - (void) methodologyFindStyler{
     if (stylers.count ==0) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No available Styler" message:@"We can not find available styler" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-                 [self.navigationController popViewControllerAnimated:YES];
-        }];
-        [alertController addAction:action];
-        [self presentViewController:alertController animated:YES completion:nil];
-
+        [self noAvailableStyler];
         return;
     }
     int index = arc4random()%stylers.count;

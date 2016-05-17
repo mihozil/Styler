@@ -24,6 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     idCustomer = [[NSUserDefaults standardUserDefaults]objectForKey:@"idcustomer"];
+    NSLog(@"idcustomer: %@",idCustomer);
     self.navigationController.navigationBarHidden = YES;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc]init];
@@ -48,18 +49,20 @@
 }
 - (void) updateData{
     //update userData
-    NSString *url = @"http://styler.theammobile.com/GET_CUSTOMER_INFORMATION_BASIC.php?";
-    NSDictionary *paras = @{@"idcustomer":idCustomer};
-    NSString *urlString = [CreateLink linkwithUrl:url andparas:paras];
-    [IOSRequest requestPath:urlString onCompletion:^(NSError*error, NSDictionary*json){
-        if (!error){
-            [[NSUserDefaults standardUserDefaults]setObject:json forKey:@"userData"];
-            [self gotoHome];
-        } else {
-            [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
-        }
-    }];
+    [self gotoHome];
+//    NSString *url = @"http://styler.theammobile.com/GET_CUSTOMER_INFORMATION_BASIC.php?";
+//    NSDictionary *paras = @{@"idcustomer":idCustomer};
+//    NSString *urlString = [CreateLink linkwithUrl:url andparas:paras];
+//    [IOSRequest requestPath:urlString onCompletion:^(NSError*error, NSDictionary*json){
+//        if (!error){
+//            [[NSUserDefaults standardUserDefaults]setObject:json forKey:@"userData"];
+//            [self gotoHome];
+//        } else {
+//            [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
+//        }
+//    }];
 }
+
 - (void) gotoSignIn{
     dispatch_async(dispatch_get_main_queue(), ^{
         SignInVC *signIn = [self.storyboard instantiateViewControllerWithIdentifier:@"signinvc"];

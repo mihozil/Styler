@@ -15,6 +15,7 @@
 #import "SPGooglePlacesAutocompleteUtilities.h"
 #import "ShowAlertView.h"
 #import "ServicesVC.h"
+#import "UpdateNotification.h"
 
 
 
@@ -31,6 +32,7 @@
     NSArray *searchResultPlaces;
     MKPointAnnotation *userAnnotation;
     UIView *tapView;
+    NSTimer *timer;
 }
     NSString *const juniorExplain= @"You should choose Junior Service because it is cheap";
     NSString *const seniorExplain= @"Senior is quite more expensive. But it is OK";
@@ -49,7 +51,7 @@
     numberOfTap = 0;
     _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
-    ref = [[Firebase alloc]initWithUrl:@"https://stylerapplication.firebaseio.com"];
+    ref = [[Firebase alloc]initWithUrl:@"https://stylerapplication.firebaseio.com/rooms"];
     searchQuery = [[SPGooglePlacesAutocompleteQuery alloc]init];
     searchQuery.radius = 100;
     
@@ -60,7 +62,12 @@
     [self initProject];
     [self initMenuBt];
     [self initMapView];
-    
+    [self updateNotification];
+}
+- (void) updateNotification{
+    UpdateNotification *updateNoti = [[UpdateNotification alloc]init];
+    [updateNoti updateNoti];
+
 }
 - (void)viewDidLayoutSubviews{
     [self explainTF];
