@@ -86,10 +86,14 @@
     [CheckLoginFacebook checkLoginwithEmail:email andType:@"Google" onCompletion:^(NSError*error, NSDictionary*json){
         if (!error){
             OnLoginFacebook *onLogin = [OnLoginFacebook new];
-            [onLogin onLoginwithEmail:email andJson:json inViewController:self];
+            [onLogin onLoginwithEmail:email andJson:json inViewController:self onCompletion:^(NSError*error){
+                     [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
+            }];
+        }else {
+            [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
         }
         
-        [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
+        
     }];
 }
 

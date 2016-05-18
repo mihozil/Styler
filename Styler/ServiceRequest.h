@@ -13,8 +13,11 @@
 
 @interface ServiceRequest : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate,UISearchBarDelegate,UISearchControllerDelegate, UITableViewDelegate,UITableViewDataSource,SWRevealViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBt;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *serviceTypeSegment;
-@property (weak, nonatomic) IBOutlet UILabel *explainTF;
+
+@property (strong, nonatomic) UISegmentedControl *serviceTypeSegment;
+@property (strong, nonatomic) UILabel *explainTF;
+@property (strong, nonatomic) UIButton *chooseService;
+@property (nonatomic, strong) UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end

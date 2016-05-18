@@ -19,6 +19,7 @@
     [super awakeFromNib];
     NSDictionary *userData = [[NSUserDefaults standardUserDefaults]objectForKey:@"userData"];
     _userNameLabel.text = [NSString stringWithFormat:@"%@ %@",userData[@"firstname"],userData[@"lastname"]];
+    
     [_userProfilePic layer].cornerRadius = _userProfilePic.frame.size.width/2;
     _userProfilePic.clipsToBounds = YES;
     [_userProfilePic layer].borderWidth = 3;

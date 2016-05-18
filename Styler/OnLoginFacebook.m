@@ -13,13 +13,37 @@
 #import "ShowAlertView.h"
 
 @implementation OnLoginFacebook
-- (void)onLoginwithEmail:(NSString *)email andJson:(NSDictionary *)json inViewController:(UIViewController*)viewController{
+- (void)onLoginwithEmail:(NSString *)email andJson:(NSDictionary *)json inViewController:(UIViewController*)viewController onCompletion:(onCompletion)complete{
+    
     _viewController = viewController;
     _email = email;
     int success = [json[@"success"] intValue];
-    if (success == 0) [self signUpVC3:json[@"id"]];
-    if (success == 1) [self loginSuccess:json[@"id"]];
-    if (success == 2 )[self duplicateEmail];
+    if (success == 0) {
+     [self signUpVC3:json[@"id"]];
+        if (complete) complete(nil);
+    }
+    
+    if (success == 1) {
+        // login success
+        [UpdateUserData updateDatawithID:json[@"id"] onCompletion:^void(NSError*error){
+            
+            [[NSUserDefaults standardUserDefaults]setObject:_email forKey:@"email"];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                SWRevealViewController *revealVC = [_viewController.storyboard instantiateViewControllerWithIdentifier:@"swrevealvc"];
+                [_viewController.navigationController pushViewController:revealVC animated:YES];
+                
+                if (complete) complete(error);
+            });
+            
+        }];
+
+    }
+    
+    if (success == 2 ){
+     [self duplicateEmail];
+        if (complete) complete(nil);
+    }
 }
 
 - (void) signUpVC3:(NSString*)idcustomer{
@@ -34,21 +58,7 @@
     
     
 }
-- (void) loginSuccess:(NSString*)idCustomer{
-    
-    [UpdateUserData updateDatawithID:idCustomer onCompletion:^void(NSError*error){
-        [[NSUserDefaults standardUserDefaults]setObject:_email forKey:_email];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            SWRevealViewController *revealVC = [_viewController.storyboard instantiateViewControllerWithIdentifier:@"swrevealvc"];
-            [_viewController.navigationController pushViewController:revealVC animated:YES];
-            
 
-        });
-        
-    }];
-    
-}
 - (void) duplicateEmail{
     dispatch_async(dispatch_get_main_queue(), ^{
             [ShowAlertView showAlertwithTitle:@"Account invalid" andMessenge:@"Please try to use another account" inViewController:_viewController];

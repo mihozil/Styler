@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+typedef void (^onCompletion) (NSError*error);
 
 @interface OnLoginFacebook :UIViewController
 @property (nonatomic, strong)UIViewController *viewController;
 @property (nonatomic, strong) NSString *email;
--(void) onLoginwithEmail:(NSString*)email andJson:(NSDictionary*)json inViewController:(UIViewController*)viewController;
+-(void) onLoginwithEmail:(NSString*)email andJson:(NSDictionary*)json inViewController:(UIViewController*)viewController onCompletion:(onCompletion)complete;
 
 @end

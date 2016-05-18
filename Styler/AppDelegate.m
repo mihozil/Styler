@@ -81,7 +81,7 @@
 }
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
     if ([application applicationState] == UIApplicationStateActive){
-        [ShowAlertView showAlertwithTitle:@"Alert received" andMessenge:notification.alertBody inViewController:nil];
+        [ShowAlertView showAlertwithTitle:@"Notification received" andMessenge:notification.alertBody inViewController:nil];
         // update to serve
     }
     

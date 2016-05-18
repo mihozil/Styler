@@ -23,13 +23,13 @@
 }
 - (IBAction)onShareFacebook:(id)sender {
     FBSDKShareLinkContent *shareLink = [[FBSDKShareLinkContent alloc]init];
-    shareLink.contentURL = [NSURL URLWithString:@"https://www.facebook.com/people/Nguyễn-Trần-Huyền-My/100001193631520"];
+    shareLink.contentURL = [NSURL URLWithString:@"https://www.facebook.com/theAMmobile/"];
     [FBSDKShareDialog showFromViewController:self withContent:shareLink delegate:nil];
     
 }
 
 - (IBAction)onShareGoogle:(id)sender {
-    NSURL *shareUrl = [NSURL URLWithString:@"https://www.facebook.com/people/Nguyễn-Trần-Huyền-My/100001193631520"];
+    NSURL *shareUrl = [NSURL URLWithString:@"https://www.facebook.com/theAMmobile/"];
     NSURLComponents *urlComponents = [[NSURLComponents alloc]initWithString:@"https://plus.google.com/share"];
 
     urlComponents.queryItems = @[[[NSURLQueryItem alloc]
@@ -57,7 +57,7 @@
 - (IBAction)onShareTwitter:(id)sender {
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]){
         SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-        [tweetSheet addURL:[NSURL URLWithString:@"http://blogtintuconline.net/hinh-anh-a-hau-huyen-my-8844.html"]];
+        [tweetSheet addURL:[NSURL URLWithString:@"https://www.facebook.com/theAMmobile/"]];
         [self presentViewController: tweetSheet animated:YES completion:nil];
     }
 }

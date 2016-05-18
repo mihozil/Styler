@@ -20,7 +20,7 @@
 
 
 @interface ServiceRequest ()
-@property (weak, nonatomic) IBOutlet UIView *nextView;
+@property (strong, nonatomic) UIView *nextView;
 @end
 
 @implementation ServiceRequest{
@@ -33,10 +33,11 @@
     MKPointAnnotation *userAnnotation;
     UIView *tapView;
     NSTimer *timer;
+    BOOL viewWillAppear;
 }
     NSString *const juniorExplain= @"You should choose Junior Service because it is cheap";
     NSString *const seniorExplain= @"Senior is quite more expensive. But it is OK";
-    NSString *const superStarExplain = @"If you are an idiot$$$. Choose this";
+    NSString *const superStarExplain = @"This is the very luxury services, but it worths";
 
 - (void) initProject{
 //    NSDictionary *userData = [[NSUserDefaults standardUserDefaults]objectForKey:@"userData"];
@@ -47,19 +48,20 @@
 //    
 //    NSString *idCustomer = [[NSUserDefaults standardUserDefaults]objectForKey:@"idcustomer"];
 //    NSLog(@"idCustomer: %@",idCustomer);
-    
+    viewWillAppear = NO;
     numberOfTap = 0;
     _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
     ref = [[Firebase alloc]initWithUrl:@"https://stylerapplication.firebaseio.com/rooms"];
     searchQuery = [[SPGooglePlacesAutocompleteQuery alloc]init];
     searchQuery.radius = 100;
-    
+    userCoordinate = CLLocationCoordinate2DMake(0, 0);
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initProject];
+    [self addNextView];
     [self initMenuBt];
     [self initMapView];
     [self updateNotification];
@@ -69,11 +71,44 @@
     [updateNoti updateNoti];
 
 }
-- (void)viewDidLayoutSubviews{
-    [self explainTF];
+- (void) addNextView{
+    _nextView = [[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-50, self.view.frame.size.width, 200)];
+    _nextView.backgroundColor = [UIColor blackColor];
+    
+    _chooseService = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, _nextView.frame.size.width, 50)];
+    [_chooseService setTitle:@"Choose Service Type" forState:UIControlStateNormal];
+    _chooseService.titleLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:20];
+    [_chooseService addTarget:self action:@selector(onChooseServiceBt:) forControlEvents:UIControlEventTouchUpInside];
+    [_nextView addSubview:_chooseService];
+    
+    _serviceTypeSegment = [[UISegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"Junior",@"Senior",@"Super Star", nil]];
+    _serviceTypeSegment.frame = CGRectMake(5, 50, _nextView.frame.size.width-10, 40);
+    [_serviceTypeSegment addTarget:self action:@selector(onSegmentChanged:) forControlEvents:UIControlEventValueChanged];
+    _serviceTypeSegment.selectedSegmentIndex = 0;
+    _serviceTypeSegment.tintColor = [UIColor whiteColor];
+    _serviceTypeSegment.layer.borderColor = [UIColor whiteColor].CGColor;
+    [_nextView addSubview:_serviceTypeSegment];
+    
+    _explainTF = [[UILabel alloc]initWithFrame:CGRectMake(0, 90, _nextView.frame.size.width,50)];
+    _explainTF.textAlignment = NSTextAlignmentCenter;
+    _explainTF.font = [UIFont fontWithName:@"Baskerville" size:16];
+    _explainTF.textColor = [UIColor whiteColor];
+    _explainTF.text = juniorExplain;
+    _explainTF.numberOfLines = 0;
+    [_nextView addSubview:_explainTF];
+    
+    _nextButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 140, _nextView.frame.size.width, 60)];
+    [_nextButton addTarget:self action:@selector(onNextButton:) forControlEvents:UIControlEventTouchUpInside];
+    [_nextButton setTitle:@"Next" forState:UIControlStateNormal];
+    _nextButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:25];
+    [_nextView addSubview:_nextButton];
+    
+    [self.view addSubview:_nextView];
+    
 }
-- (IBAction)onChooseServiceBt:(id)sender {
-    if (_nextView.frame.origin.y>self.view.frame.size.height-50){
+
+- (void)onChooseServiceBt:(id)sender {
+    if (_nextView.frame.origin.y>self.view.frame.size.height-60){
         [self pushView:YES];
     }
 }
@@ -99,8 +134,8 @@
 
 - (void) pushView:(BOOL)moveUp{
     float moveDistance;
-    if (moveUp) moveDistance =-120;
-    else moveDistance = 120;
+    if (moveUp) moveDistance =-150;
+    else moveDistance = 150;
     [UIView animateWithDuration:0.3 animations:^{
     
         _nextView.frame = CGRectOffset(_nextView.frame, 0, moveDistance);
@@ -120,7 +155,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     [locationManager startUpdatingLocation];
-    userCoordinate = CLLocationCoordinate2DMake(0, 0);
+    viewWillAppear = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -145,6 +180,7 @@
 - (void)revealController:(SWRevealViewController *)revealController willMoveToPosition:(FrontViewPosition)position{
     if (position == FrontViewPositionRight){
         [self.view addSubview:tapView];
+        [self.view bringSubviewToFront:tapView];
         
     }else if (position == FrontViewPositionLeft){
         
@@ -153,12 +189,13 @@
     }
 }
 
-- (IBAction)onSegmentChanged:(id)sender {
+- (void)onSegmentChanged:(id)sender {
     [self explainServiceType];
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
-    if ((userCoordinate.latitude ==0) && (userCoordinate.longitude==0)){
+    if (viewWillAppear ==YES){
+        viewWillAppear =NO;
         userCoordinate = userLocation.coordinate;
         [self recenterMap];
     }
@@ -266,7 +303,7 @@
     
     return cell;
 }
-- (IBAction)onNextButton:(id)sender {
+- (void) onNextButton:(id)sender {
     if ((userCoordinate.latitude==0) && (userCoordinate.longitude ==0)) {
         [ShowAlertView showAlertwithTitle:@"Data Loading" andMessenge:@"Please wait" inViewController:self];
         return;
@@ -288,7 +325,7 @@
     NSArray *allTouch = [touches allObjects];
     CGPoint touchPoint = [[allTouch firstObject] locationInView:self.view];
     if (touchPoint.y< _nextView.frame.origin.y)
-    if (_nextView.frame.origin.y<self.view.frame.size.height-50){
+    if (_nextView.frame.origin.y<self.view.frame.size.height-60){
         [self pushView:NO];
     }
 }

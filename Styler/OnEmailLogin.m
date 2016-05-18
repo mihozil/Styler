@@ -21,7 +21,7 @@
     [super viewDidLoad];
 
 }
-+ (void)loginWithEmail:(NSString *)email andJson:(NSDictionary *)json inViewController:(UIViewController *)viewController{
++ (void)loginWithEmail:(NSString *)email andJson:(NSDictionary *)json inViewController:(UIViewController *)viewController onCompletion:(onCompletion)complete{
     
     int success = [json[@"success"] intValue];
     if (success == 0){
@@ -29,14 +29,17 @@
             [ShowAlertView showAlertwithTitle:@"Error Email or Password" andMessenge:@"Please reenter your account" inViewController:viewController];
  
         });
+        if (complete) complete(nil);
             } else {
         [[NSUserDefaults standardUserDefaults]setObject:@"email" forKey:email];
                 
         [UpdateUserData updateDatawithID:json[@"id"] onCompletion:^(NSError*error){
+            
             SWRevealViewController *swRevealVC = [viewController.storyboard instantiateViewControllerWithIdentifier:@"swrevealvc"];
             dispatch_async(dispatch_get_main_queue(), ^{
                   [viewController.navigationController pushViewController:swRevealVC animated:YES];
             });
+            if (complete) complete(error);
           
         }];
     }

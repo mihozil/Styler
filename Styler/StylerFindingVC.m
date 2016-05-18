@@ -132,13 +132,16 @@
 
 - (void) updateStylerAccept{
     [[[roomRef childByAppendingPath:@"status"]childByAppendingPath:@"status1"] observeEventType:FEventTypeValue withBlock:^(FDataSnapshot*snapShot){
-        NSString *value = snapShot.value;
-        if ([value isEqualToString:@"accept"]){
-            [self stylerAccept];
-        }else if ([value isEqualToString:@"reject"]){
-            [self stylerReject];
-            [roomRef removeAllObservers];
+        if (snapShot.value!= [NSNull null]){
+            NSString *value = snapShot.value;
+            if ([value isEqualToString:@"accept"]){
+                [self stylerAccept];
+            }else if ([value isEqualToString:@"reject"]){
+                [self stylerReject];
+                [roomRef removeAllObservers];
+            }
         }
+        
     }];
 }
 - (void) stylerReject{

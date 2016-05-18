@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef void (^onCompletion)(NSError*error);
+
 
 @interface OnEmailLogin : UIViewController
 
-+ (void) loginWithEmail:(NSString*)email andJson:(NSDictionary*)json inViewController:(UIViewController*)viewController;
++ (void) loginWithEmail:(NSString*)email andJson:(NSDictionary*)json inViewController:(UIViewController*)viewController onCompletion:(onCompletion)complete;
 
 @end

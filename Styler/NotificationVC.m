@@ -24,6 +24,8 @@
     _tableView.backgroundColor = [UIColor clearColor];
     NSDictionary *allNoti =[NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"customerNoti"]];
     notiCustomer = [NSMutableArray arrayWithArray:allNoti.allValues];
+    
+    self.title = @"Notifications";
 
 }
 - (void) createFirebase{

@@ -8,6 +8,7 @@
 
 #import "ConfirmRequest.h"
 #import "StylerFindingVC.h"
+#import "ShowAlertView.h"
 
 @interface ConfirmRequest ()
 
@@ -16,6 +17,9 @@
 @implementation ConfirmRequest{
     NSArray *servicesPickingArray;
     float keyboardHeight;
+    
+    PayPalPayment *payment;
+    PaymentStatus status;
 }
 - (void) initPrj{
     _servicesTableView.backgroundColor = [UIColor clearColor];
@@ -53,6 +57,68 @@
     [self initPrj];
     [self setTotalPrice];
 }
+- (void)viewDidAppear:(BOOL)animated{
+//    [self createPayPal];
+}
+//- (void) createPayPal{
+//    [PayPal initializeWithAppID:@"APP-80W284485P519543T" forEnvironment:ENV_SANDBOX];
+//    NSString *totalPrice = _totalPriceLabel.text;
+//    totalPrice = [totalPrice stringByReplacingOccurrencesOfString:@" $" withString:@""];
+//    payment = [[PayPalPayment alloc]init];
+//    payment.subTotal = [NSDecimalNumber decimalNumberWithString:totalPrice];
+//    payment.recipient = @"minhnht05.sic-facilitator@gmail.com";
+//    payment.paymentCurrency = @"USD";
+//    
+//    [[PayPal getPayPalInst]checkoutWithPayment:payment];
+//    [PayPal getPayPalInst].feePayer = FEEPAYER_SENDER;
+//    
+//    UIButton *payPalBt = [[PayPal getPayPalInst]getPayButtonWithTarget:self andAction:@selector(onPayPalBt) andButtonType:BUTTON_278x43 andButtonText:BUTTON_TEXT_PAY];
+//    payPalBt.frame = CGRectMake(0, 0, _confirmButton.frame.size.width, _confirmButton.frame.size.height);
+//    payPalBt.center = _confirmButton.center;
+
+    // temporary remove this code because there is error with Paypal
+//    [self.view addSubview:payPalBt];
+//    [self.view bringSubviewToFront:payPalBt];
+    
+//}
+- (void) onPayPalBt{
+    
+    
+//    [[PayPal getPayPalInst] preapprovalWithKey:self.preapprovalKey andMerchantName:self.merchantName];
+    
+}
+- (void)paymentSuccessWithKey:(NSString *)payKey andStatus:(PayPalPaymentStatus)paymentStatus{
+    status = PAYMENT_SUCCESSED;
+}
+- (void)paymentFailedWithCorrelationID:(NSString *)correlationID{
+    status = PAYMENT_FAILED;
+}
+- (void)paymentCanceled{
+    status = PAYMENT_CANCELLED;
+}
+- (void)paymentLibraryExit{
+    switch (status) {
+        case PAYMENT_SUCCESSED:{
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Payment Success" message:@"Go to find styler" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+                [self gotoStylerFinding];
+            }];
+            
+            [alertController addAction:action];
+            [self presentViewController:alertController animated:YES completion:Nil];
+            break;
+        }
+        case PAYMENT_FAILED:
+            [ShowAlertView showAlertwithTitle:@"Payment failed" andMessenge:@"please try again" inViewController:self];
+            break;
+        case PAYMENT_CANCELLED:
+            [ShowAlertView showAlertwithTitle:@"Payment cancelled" andMessenge:@"please try again" inViewController:self];
+            
+        default:
+            break;
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBarHidden = NO;
 }
@@ -104,6 +170,10 @@
 }
 
 - (IBAction)onConfirmBt:(id)sender {
+    // go to stylerfinding
+    [self gotoStylerFinding];
+}
+- (void) gotoStylerFinding{
     StylerFindingVC *stylerFinding = [self.storyboard instantiateViewControllerWithIdentifier:@"stylerfindingvc"];
     [self.navigationController pushViewController:stylerFinding animated:YES];
 }

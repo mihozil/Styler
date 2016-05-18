@@ -20,6 +20,7 @@
         if (error){
             if (complete) complete(error, nil);
             dispatch_async(dispatch_get_main_queue(), ^{
+        
                [ShowAlertView showAlertwithTitle:@"Error" andMessenge:@"Error Requesting" inViewController:nil]; 
             });
             

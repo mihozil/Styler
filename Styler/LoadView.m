@@ -23,6 +23,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"idcustomer"];
     idCustomer = [[NSUserDefaults standardUserDefaults]objectForKey:@"idcustomer"];
     NSLog(@"idcustomer: %@",idCustomer);
     self.navigationController.navigationBarHidden = YES;
@@ -49,18 +50,19 @@
 }
 - (void) updateData{
     //update userData
-    [self gotoHome];
-//    NSString *url = @"http://styler.theammobile.com/GET_CUSTOMER_INFORMATION_BASIC.php?";
-//    NSDictionary *paras = @{@"idcustomer":idCustomer};
-//    NSString *urlString = [CreateLink linkwithUrl:url andparas:paras];
-//    [IOSRequest requestPath:urlString onCompletion:^(NSError*error, NSDictionary*json){
-//        if (!error){
-//            [[NSUserDefaults standardUserDefaults]setObject:json forKey:@"userData"];
-//            [self gotoHome];
-//        } else {
-//            [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
-//        }
-//    }];
+//    [selgotoHome];
+    NSString *url = @"http://styler.theammobile.com/GET_CUSTOMER_INFORMATION_BASIC.php?";
+    NSDictionary *paras = @{@"idcustomer":idCustomer};
+    NSString *urlString = [CreateLink linkwithUrl:url andparas:paras];
+    
+    [IOSRequest requestPath:urlString onCompletion:^(NSError*error, NSDictionary*json){
+        if (!error){
+            [[NSUserDefaults standardUserDefaults]setObject:json forKey:@"userData"];
+            [self gotoHome];
+        } else {
+            [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
+        }
+    }];
 }
 
 - (void) gotoSignIn{

@@ -18,9 +18,13 @@
     timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(onTimer) userInfo:nil repeats:YES];
 }
 - (void) onTimer{
-    NSLog(@"onTimer");
-    Firebase *notiRef = [[Firebase alloc]initWithUrl:@"https://stylerapplication.firebaseio.com/noti"];
+//    NSLog(@"onTimer");
     NSString *idCustomer = [[NSUserDefaults standardUserDefaults]objectForKey:@"idcustomer"];
+    if (!idCustomer){
+        [timer invalidate];
+        return;
+    }
+    Firebase *notiRef = [[Firebase alloc]initWithUrl:@"https://stylerapplication.firebaseio.com/noti"];
     Firebase *customeRef = [notiRef childByAppendingPath:idCustomer];
     
     [customeRef observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot*snapShot){

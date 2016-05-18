@@ -54,9 +54,13 @@
             [[NSUserDefaults standardUserDefaults]setObject:userData forKey:@"userData"];
             
             OnLoginFacebook *onLogin = [OnLoginFacebook new];
-            [onLogin onLoginwithEmail:email andJson:json inViewController:self];
-        }
+            [onLogin onLoginwithEmail:email andJson:json inViewController:self onCompletion:^(NSError*error){
+                    [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
+            }];
+        }else {
             [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
+        }
+        
         
     }];
     
@@ -79,11 +83,15 @@
     [IOSRequest requestPath:urlString onCompletion:^(NSError*error, NSDictionary*json){
         if (!error){
             
-          [OnEmailLogin loginWithEmail:_emailTF.text andJson:json inViewController:self];
+            [OnEmailLogin loginWithEmail:_emailTF.text andJson:json inViewController:self onCompletion:^(NSError*error){
+                [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
+            }];
             
+        }else {
+            [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
         }
         
-        [ShowActivityIndicatorView stopActivityIndicatorView:activityIndicatorView];
+        
         
     }];
 }

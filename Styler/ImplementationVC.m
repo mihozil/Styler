@@ -30,6 +30,7 @@
     int timeCount;
     NSString*stylerStatus;
     UIView*tapView;
+    BOOL clientCancel;
 }
 - (void) initPrj{
     self.navigationController.navigationBarHidden = NO;
@@ -82,7 +83,7 @@
 
 }
 - (void) notifyRequestSuccessful{
-    [ShowAlertView showAlertwithTitle:@"Request successfully" andMessenge:@"Your request has been successfully created" inViewController:self];
+    [ShowAlertView showAlertwithTitle:@"Request successfully" andMessenge:@"Stylist has approved the service" inViewController:self];
 }
 - (void) updateLabel{
     _freeCancelLabel.text = [NSString stringWithFormat:@"Free Cancel:\n%dmin %ds",timeCount/60,timeCount%60];
@@ -116,7 +117,8 @@
         if ([stylerStatus isEqualToString:@"complete"]){
             [self gotoReceipt];
         }
-        if ([stylerStatus isEqualToString:@"cancel"]){
+        if ([stylerStatus isEqualToString:@"cancel"])
+        if (!clientCancel){
             [self serviceCanceled];
         }
         [self updateStylerPosition:room];
@@ -135,7 +137,7 @@
 }
 
 - (void) notifyBegin{
-    [ShowAlertView showAlertwithTitle:@"Begin Service" andMessenge:@"The service has been began" inViewController:self];
+    [ShowAlertView showAlertwithTitle:@"Begin Service" andMessenge:@"The service has been begun" inViewController:self];
 }
 - (void) gotoReceipt{
     ReceiptVC *receiptVC = [self.storyboard instantiateViewControllerWithIdentifier:@"receiptvc"];
@@ -230,7 +232,9 @@
     
 }
 - (void) updateRoomRefCancel{
+    clientCancel = YES;
     [[[roomRef childByAppendingPath:@"status"]childByAppendingPath:@"status1"]setValue:@"cancel"];
+    
 }
 - (void) cancelInvalid{
     [ShowAlertView showAlertwithTitle:@"CancelInvalid" andMessenge:@"The service has been begun" inViewController:self];

@@ -70,19 +70,18 @@
     _nextView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_nextView];
     
-    _moveUpBt = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
-    _moveUpBt.titleLabel.font = [UIFont fontWithName:@"Avenir Medium" size:20];
-    [_moveUpBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_moveUpBt setTitle:@"....." forState:UIControlStateNormal];
-    [_moveUpBt addTarget:self action:@selector(onMoveupBt:) forControlEvents:UIControlEventTouchDown];
-    [_nextView addSubview:_moveUpBt];
-    
-    _totalPriceLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 0, self.view.frame.size.width-50, 50)];
+    _totalPriceLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
     _totalPriceLabel.text = @"Total Price";
     _totalPriceLabel.textAlignment = NSTextAlignmentCenter;
     _totalPriceLabel.textColor = [UIColor whiteColor];
     _totalPriceLabel.font = [UIFont fontWithName:@"Baskerville-SemiBold" size:20];
     [_nextView addSubview:_totalPriceLabel];
+    
+    _moveUpBt = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, _nextView.frame.size.width, 50)];
+    _moveUpBt.titleLabel.font = [UIFont fontWithName:@"Avenir Medium" size:20];
+    [_moveUpBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_moveUpBt addTarget:self action:@selector(onMoveupBt:) forControlEvents:UIControlEventTouchDown];
+    [_nextView addSubview:_moveUpBt];
     
     _descriptionTF = [[UITextField alloc]initWithFrame:CGRectMake(20, 50, self.view.frame.size.width-40, 40)];
     _descriptionTF.backgroundColor = [UIColor whiteColor];
